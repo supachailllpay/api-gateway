@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const commander = require('commander')
+const path = require('path')
+
+commander
+  .version('0.0.0')
+  .option('-f --file [file]', 'The path to data file (default: data.json)')
+  .option('-p --port [port]', 'The port to serve from (default: 0)')
+  .parse(process.argv)
+
+const defaults = {
+  file: 'data.json',
+  port: '0'
+}
+
+process.env.FILE = path.resolve(process.cwd(), commander.file || defaults.file)
+process.env.PORT = commander.port || defaults.port
+
+const childProcess = require('child_process')
+childProcess.spawn('node', ['www.js'], {
+  cwd: path.resolve(__dirname, '../app'),
+  env: process.env,
+  stdio: 'inherit'
+})
