@@ -12,8 +12,7 @@ const data = require('./routes/data')
 app.use('/api', api)
 app.use('/data', data)
 
-app.use((req, res, next) => {
-  if (/\.\w+$/.test(req.path)) return next()
+app.use('/editor', (req, res, next) => {
   res.sendFile(path.resolve('views/index.html'))
 })
 

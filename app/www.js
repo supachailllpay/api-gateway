@@ -17,7 +17,7 @@ server.listen(port, host, () => {
     ``,
     `${yellow('api-gateway')} ${magenta('(∩｀-´)⊃━☆ﾟ.*･｡ﾟ')}`,
     ``,
-    `- Editor serving at ${blue(`${host}:${port}`)}`,
+    `- Editor serving at ${blue(`${host}:${port}/editor`)}`,
     `- API serving at ${blue(`${host}:${port}/api`)}`,
     `- Data file using at ${blue(file)}`,
     ``
