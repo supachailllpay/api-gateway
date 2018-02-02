@@ -1,0 +1,12 @@
+{
+  "info": {
+    "title": "String",
+    "description": "String",
+    "version": "String"
+  },
+  "routes": [{
+    "path": "String",
+    "method": "String",
+    "response": "String"
+  }]
+}
