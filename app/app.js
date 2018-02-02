@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
-  res.send(err.message)
+  res.json({ ok: false, message: err.message })
 })
 
 module.exports = app
