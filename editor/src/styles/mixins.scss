@@ -1,0 +1,22 @@
+@mixin card {
+  padding: 16px;
+  background-color: $color-white;
+  border-radius: 4px;
+}
+
+@mixin icon {
+  display: inline-block;
+  width: 24px;
+  color: $color-secondary-text;
+  font-family: 'Material Icons';
+  font-feature-settings: 'liga';
+  font-size: 24px;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+}
