@@ -94,8 +94,8 @@
     height: auto;
     color: $color-primary-text;
     background: none;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 14px;
+    font-family: inherit;
+    font-size: inherit;
   }
 
   .CodeMirror-scroll {
