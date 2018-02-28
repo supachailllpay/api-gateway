@@ -41,7 +41,8 @@
 
     watch: {
       route (route) {
-        this.editor.setValue(route.response)
+        let text = route.response || ''
+        this.editor.setValue(text)
       }
     },
 
