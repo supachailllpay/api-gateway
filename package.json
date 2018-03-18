@@ -3,22 +3,24 @@
   "version": "0.0.0",
   "description": "An API gateway for development",
   "author": "supachailllpay",
+  "license": "MIT",
   "bin": {
     "gateway": "./bin/gateway"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
-    "chalk": "^2.3.0",
-    "commander": "^2.13.0",
-    "express": "^4.16.2"
+    "chalk": "^2.3.2",
+    "commander": "^2.15.0",
+    "express": "^4.16.3",
+    "request": "^2.85.0"
   },
   "devDependencies": {
-    "eslint": "^4.15.0",
-    "eslint-config-standard": "^11.0.0-beta.0",
-    "eslint-plugin-html": "^4.0.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0",
+    "eslint": "^4.19.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-html": "^4.0.2",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1"
   }
 }
