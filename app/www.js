@@ -4,7 +4,7 @@ const chalk = require('chalk')
 const app = require('./app')
 const server = http.createServer(app)
 
-const host = 'localhost'
+const host = '0.0.0.0'
 const port = parseInt(process.env.PORT, 10)
 const file = process.env.FILE
 
@@ -17,9 +17,9 @@ server.listen(port, host, () => {
     ``,
     `${yellow('api-gateway')} ${magenta('(∩｀-´)⊃━☆ﾟ.*･｡ﾟ')}`,
     ``,
-    `- Editor serving at ${blue(`${host}:${port}/editor`)}`,
     `- API serving at ${blue(`${host}:${port}/api`)}`,
+    `- Editor serving at ${blue(`${host}:${port}/editor`)}`,
     `- Data file using at ${blue(file)}`,
     ``
-  ].join('\n'))
+  ].join('\n') + '\n')
 })
