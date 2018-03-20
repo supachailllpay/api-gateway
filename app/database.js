@@ -1,17 +1,14 @@
 const fs = require('fs')
+const util = require('util')
+
+const read = util.promisify(fs.readFile)
+const write = util.promisify(fs.writeFile)
+const file = process.env.FILE
 
 module.exports.get = function () {
-  let data = {}
-  let path = process.env.FILE
-  if (fs.existsSync(path)) {
-    let file = fs.readFileSync(path)
-    data = JSON.parse(file)
-  }
-  return data
+  return read(file).then(data => JSON.parse(data))
 }
 
 module.exports.set = function (data) {
-  let path = process.env.FILE
-  let string = JSON.stringify(data, null, 2)
-  fs.writeFileSync(path, string)
+  return write(file, JSON.stringify(data, null, 2))
 }
