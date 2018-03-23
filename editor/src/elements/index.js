@@ -1,12 +1,5 @@
-import select from './select'
-import spinner from './spinner'
-import toast from './toast'
+import Select from './select'
+import Spinner from './spinner'
+import Toast from './toast'
 
-export default {
-  install (Vue, options) {
-    let elements = [select, spinner, toast]
-    elements.forEach(element => {
-      Vue.component(element.name, element)
-    })
-  }
-}
+export default [Select, Spinner, Toast]
