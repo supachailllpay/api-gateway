@@ -1,5 +1,7 @@
 <template>
-  <div class='toast' :visible='visible'>{{ message }}</div>
+  <div class='toast' :visible='visible'>
+    {{ message }}
+  </div>
 </template>
 
 <script>
@@ -11,8 +13,8 @@
     },
 
     data: () => ({
-      message: '',
-      visible: false
+      visible: false,
+      message: ''
     }),
 
     methods: {
@@ -40,7 +42,7 @@
     left: 24px;
     z-index: 600;
     display: none;
-    max-width: 320px;
+    max-width: 360px;
     padding: 16px;
     color: $color-white;
     background-color: rgba($color-black, 0.9);
