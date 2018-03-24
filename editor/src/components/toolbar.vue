@@ -1,11 +1,11 @@
 <template>
   <div class='toolbar'>
-    <div class='title'>
-      <a href='/'>{{ info.title || 'Project Name' }}</a>
+    <div class='tle'>
+      <a href='/'>{{ info.title || 'api-gateway' }}</a>
       <span>v{{ info.version || '0.0.0' }}</span>
     </div>
 
-    <div class='icon' @click='save'>save</div>
+    <div class='icn' @click='save'>save</div>
   </div>
 </template>
 
@@ -38,7 +38,7 @@
     background-color: $color-primary;
   }
 
-  .title {
+  .tle {
     flex-grow: 1;
     font-size: 20px;
     text-overflow: ellipsis;
@@ -46,7 +46,7 @@
     overflow: hidden;
   }
 
-  .icon {
+  .icn {
     @include icon;
     color: $color-white;
     cursor: pointer;
