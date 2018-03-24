@@ -1,14 +1,14 @@
 <template>
   <div class='layout'>
-    <div class='toolbar'>
+    <div class='tbr'>
       <slot name='toolbar'></slot>
     </div>
 
-    <div class='left-pane'>
+    <div class='lfp'>
       <slot name='left-pane'></slot>
     </div>
 
-    <div class='right-pane'>
+    <div class='rhp'>
       <slot name='right-pane'></slot>
     </div>
   </div>
@@ -25,39 +25,29 @@
     left: 0;
   }
 
-  .toolbar {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
+  .tbr {
+    @extend .layout;
     z-index: 1;
     height: 64px;
   }
 
-  .left-pane {
-    position: absolute;
+  .lfp {
+    @extend .layout;
     top: 64px;
     right: 50%;
-    bottom: 0;
-    left: 0;
     overflow-y: auto;
   }
 
-  .right-pane {
-    position: absolute;
+  .rhp {
+    @extend .layout;
     top: 64px;
-    right: 0;
-    bottom: 0;
     left: 50%;
     border-left: 2px solid $color-divider;
     overflow-y: auto;
   }
 
   @media (max-width: $breakpoint-small) {
-    .layout,
-    .toolbar,
-    .left-pane,
-    .right-pane {
+    .layout {
       position: initial;
       top: initial;
       right: initial;
@@ -65,7 +55,7 @@
       left: initial;
     }
 
-    .right-pane {
+    .rhp {
       border-top: 2px solid $color-divider;
       border-left: 0;
     }
