@@ -58,12 +58,16 @@
   .input {
     width: 100%;
     padding: 0;
+
+    .select[right] & {
+      text-align: right;
+    }
   }
 
   .menu {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     z-index: 800;
     display: none;
     padding: 8px 0;
@@ -71,6 +75,11 @@
     border-radius: 4px;
     box-shadow: 0 1px 2px 0 $color-divider;
     overflow-y: auto;
+
+    .select[right] & {
+      left: initial;
+      right: 0;
+    }
 
     &[visible] {
       display: block;
