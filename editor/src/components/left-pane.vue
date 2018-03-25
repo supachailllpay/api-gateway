@@ -1,45 +1,43 @@
 <template>
-  <div class='container'>
-    <div class='info'>
-      <input class='info-title' placeholder='Project Name' v-model='info.title'>
-      <input class='info-version' placeholder='Version' v-model='info.version'>
+  <div class='left-pane'>
+    <div class='inf'>
+      <input class='inf-t' placeholder='Project name' v-model='info.title'>
+      <input class='inf-v' placeholder='Version' v-model='info.version'>
     </div>
 
-    <div class='routes'>
-      <div class='routes-item'
+    <div class='rot'>
+      <div class='rot-i'
         v-for='route in routes'
-        :class='{ selected: route === draggingRoute }'
-        @dragover='allowDrop'
+        :dragged='route === draggingRoute'
         @dragstart='handleDragStart(route)'
         @dragenter='handleDragEnter(route)'
         @dragend='handleDragEnd'
-        @click='selectRoute(route)'>
-        <div class='routes-item-icon'
+        @dragover='handleDragOver'>
+        <div class='rot-c'
           @mouseenter='toggleDraggable($event, true)'
-          @mouseleave='toggleDraggable($event, false)'>reorder</div>
-        <div class='routes-item-path'>
-          {{ route.path  }}
-          <span class='routes-item-path-placeholder' v-show='!route.path'>t(-_-t)</span>
+          @mouseleave='toggleDraggable($event, false)'>
+          reorder
         </div>
-        <div class='routes-item-icon' @click='removeRoute(route)'>delete</div>
+        <div class='rot-p' @click='selectRoute(route)'>
+          <span>{{ route.path }}</span>
+          <span v-show='!route.path'>~</span>
+        </div>
+        <div class='rot-d' @click='removeRoute(route)'>remove_circle_outline</div>
       </div>
-      <div class='routes-new' @click='addRoute'>
-        <span class='routes-new-icon'>add</span>
-        <span class='routes-new-text'>Add new route</span>
+      <div class='rot-a' @click='addRoute'>
+        <span class='rot-x'>add_circle_outline</span>
+        <span class='rot-f'>Add new route</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  const move = function (array, fromIndex, toIndex) {
-    let newArray = array.slice()
-    let element = newArray.splice(fromIndex, 1)[0]
-    newArray.splice(toIndex, 0, element)
-    return newArray
-  }
-
   export default {
+    data: () => ({
+      draggingRoute: null
+    }),
+
     computed: {
       info () {
         return this.$store.state.info
@@ -49,45 +47,35 @@
       }
     },
 
-    data: () => ({
-      draggingRoute: null
-    }),
-
     methods: {
-      allowDrop (event) {
-        event.preventDefault()
-      },
       handleDragStart (route) {
         this.draggingRoute = route
       },
       handleDragEnter (route) {
-        let routes = this.routes
-        let fromIndex = routes.indexOf(this.draggingRoute)
-        let toIndex = routes.indexOf(route)
-        if (fromIndex === toIndex) return
-        let newRoutes = move(routes, fromIndex, toIndex)
-        this.$store.dispatch('setRoutes', newRoutes)
+        let fromIndex = this.routes.indexOf(this.draggingRoute)
+        let toIndex = this.routes.indexOf(route)
+        this.$store.dispatch('moveRoute', { fromIndex, toIndex })
       },
-      handleDragEnd (event) {
+      handleDragEnd () {
         this.draggingRoute = null
+      },
+      handleDragOver (event) {
+        event.preventDefault()
       },
       toggleDraggable (event, value) {
         let element = event.target.parentElement
         element.setAttribute('draggable', value)
       },
       selectRoute (route) {
-        this.$store.dispatch('selectRoute', route)
+        this.$store.dispatch('selectRoute', { route })
       },
       addRoute () {
         let route = {}
-        let newRoutes = this.routes.concat(route)
-        this.$store.dispatch('setRoutes', newRoutes)
-        this.selectRoute(route)
+        this.$store.dispatch('addRoute', { route })
       },
       removeRoute (route) {
-        let removingRoute = route
-        let newRoutes = this.routes.filter(route => route !== removingRoute)
-        this.$store.dispatch('setRoutes', newRoutes)
+        this.$store.dispatch('removeRoute', { route })
+        this.$store.dispatch('selectRoute', {})
       }
     }
   }
@@ -97,22 +85,24 @@
   @import '~@/styles/variables';
   @import '~@/styles/mixins';
 
-  .container {
+  .left-pane {
     padding: 24px;
   }
 
-  .info {
-    @include card;
+  .inf {
     display: flex;
+    padding: 16px;
+    background-color: $color-white;
+    border-radius: 4px;
   }
 
-  .info-title {
+  .inf-t {
     flex-grow: 1;
     min-width: 0;
     padding: 0;
   }
 
-  .info-version {
+  .inf-v {
     width: 60px;
     min-width: 0;
     padding: 0;
@@ -120,62 +110,71 @@
     text-align: right;
   }
 
-  .routes {
-    @include card;
-    padding: 0;
+  .rot {
     margin-top: 24px;
+    background-color: $color-white;
+    border-radius: 4px;
   }
 
-  .routes-item {
+  .rot-i {
     display: flex;
     align-items: center;
     padding: 16px;
-    cursor: pointer;
     border-radius: 4px;
+    user-select: none;
 
-    &:hover {
-      color: $color-primary;
-    }
-
-    &.selected {
-      background-color: $color-background;
+    &[dragged] {
+      background-color: rgba($color-black, 0.05);
     }
   }
 
-  .routes-item-icon {
+  .rot-c {
     @include icon;
-    transition: opacity 0.2s ease-in-out;
     cursor: move;
-    opacity: 0.1;
-    user-select: none;
+    opacity: 0.5;
 
     &:hover {
       opacity: 1;
     }
   }
 
-  .routes-item-path {
+  .rot-p {
     flex-grow: 1;
     margin-left: 16px;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-primary;
+    }
   }
 
-  .routes-item-path-placeholder {
-    color: $color-secondary-text;
+  .rot-d {
+    @include icon;
+    cursor: pointer;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
-  .routes-new {
+  .rot-a {
     display: flex;
     padding: 16px;
     border-top: 1px dashed $color-divider;
     cursor: pointer;
+
+    &:first-child {
+      border-top: 0;
+    }
   }
 
-  .routes-new-icon {
+  .rot-x {
     @include icon;
-    margin-right: 16px;
   }
 
-  .routes-new-text {
+  .rot-f {
+    margin-left: 16px;
     color: $color-secondary-text;
   }
 </style>
