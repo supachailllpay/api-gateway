@@ -1,12 +1,14 @@
+import util from './util'
+
 const state = {
   info: {},
-  routes: []
+  routes: [],
+  selectedRoute: null
 }
 
 const actions = {
   pull (context) {
-    return window.fetch('/data')
-      .then(response => response.json())
+    return util.fetch('/data')
       .then(body => {
         let data = body.data
         context.commit('setInfo', data.info || {})
@@ -18,11 +20,12 @@ const actions = {
     let info = context.state.info
     let routes = context.state.routes
     let data = { info, routes }
-    return window.fetch('/data', {
+    let init = {
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data })
-    })
+    }
+    return util.fetch('/data', init)
   },
 
   addRoute (context, payload) {
@@ -32,13 +35,17 @@ const actions = {
     context.commit('setRoutes', newRoutes)
   },
 
+  removeRoute (context, payload) {
+    let routes = context.state.routes
+    let newRoutes = routes.filter(route => route !== payload.route)
+    context.commit('setRoutes', newRoutes)
+  },
+
   moveRoute (context, payload) {
     let fromIndex = payload.fromIndex
     let toIndex = payload.toIndex
     let routes = context.state.routes
-    let newRoutes = routes.slice()
-    let route = newRoutes.splice(fromIndex, 1)[0]
-    newRoutes.splice(toIndex, 0, route)
+    let newRoutes = util.move(routes, fromIndex, toIndex)
     context.commit('setRoutes', newRoutes)
   },
 
