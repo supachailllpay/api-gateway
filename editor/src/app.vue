@@ -6,50 +6,46 @@
       <right-pane slot='right-pane'></right-pane>
     </layout>
 
-    <spinner :hidden='!loading'></spinner>
+    <element-toast ref='toast'
+      :duration='5000'>
+    </element-toast>
   </div>
 </template>
 
 <script>
-  import Spinner from '@/components/spinner'
+  import Vue from 'vue'
+  import Elements from '@/elements'
   import Layout from '@/components/layout'
   import Toolbar from '@/components/toolbar'
   import LeftPane from '@/components/left-pane'
   import RightPane from '@/components/right-pane'
 
+  Elements.forEach(Element => {
+    Vue.component(Element.name, Element)
+  })
+
   export default {
     components: {
-      'spinner': Spinner,
       'layout': Layout,
       'toolbar': Toolbar,
       'left-pane': LeftPane,
       'right-pane': RightPane
     },
 
-    data: () => ({
-      loading: false
-    }),
-
     methods: {
-      request (action) {
-        this.loading = true
-        action().then(() => {
-          setTimeout(() => {
-            this.loading = false
-          }, 500)
-        })
-      },
       save () {
-        this.request(() => (
-          this.$store.dispatch('push')
-        ))
+        this.$store.dispatch('push').then(() => {
+          this.$refs.toast.show('Data has been saved successfully')
+        }).catch(body => {
+          this.$refs.toast.show(body.message)
+        })
       }
     },
 
     mounted () {
-      this.request(() => (
-        this.$store.dispatch('pull')
-      ))
+      this.$store.dispatch('pull').catch(body => {
+        this.$refs.toast.show(body.message)
+      })
     }
   }
 </script>
