@@ -36,8 +36,9 @@ const actions = {
   },
 
   removeRoute (context, payload) {
+    let route = payload.route
     let routes = context.state.routes
-    let newRoutes = routes.filter(route => route !== payload.route)
+    let newRoutes = routes.filter(other => other !== route)
     context.commit('setRoutes', newRoutes)
   },
 
