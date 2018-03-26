@@ -36,15 +36,15 @@
       save () {
         this.$store.dispatch('push').then(() => {
           this.$refs.toast.show('Data has been saved successfully')
-        }).catch(body => {
-          this.$refs.toast.show(body.message)
+        }).catch(error => {
+          this.$refs.toast.show(error.message)
         })
       }
     },
 
     mounted () {
-      this.$store.dispatch('pull').catch(body => {
-        this.$refs.toast.show(body.message)
+      this.$store.dispatch('pull').catch(error => {
+        this.$refs.toast.show(error.message)
       })
     }
   }
