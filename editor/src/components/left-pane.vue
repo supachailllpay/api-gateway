@@ -1,14 +1,14 @@
 <template>
   <div class='left-pane'>
     <div class='inf'>
-      <input class='inf-t' placeholder='Name' v-model='info.name'>
-      <input class='inf-v' placeholder='Version' v-model='info.version'>
+      <input class='inf-t' type='text' placeholder='Name' v-model='info.name'>
+      <input class='inf-v' type='text' placeholder='Version' v-model='info.version'>
     </div>
 
     <div class='rot'>
       <div class='rot-i'
         v-for='route in routes'
-        :dragged='route === draggingRoute'
+        :moving='route === movingRoute'
         @dragstart='handleDragStart(route)'
         @dragenter='handleDragEnter(route)'
         @dragend='handleDragEnd'
@@ -24,9 +24,8 @@
         </div>
         <div class='rot-d' @click='removeRoute(route)'>remove_circle_outline</div>
       </div>
-      <div class='rot-a' @click='addRoute'>
-        <span class='rot-x'>add_circle_outline</span>
-        <span class='rot-f'>Add new route</span>
+      <div class='rot-a'>
+        <div class='rot-x' @click='addRoute'>add_circle_outline</div>
       </div>
     </div>
   </div>
@@ -35,7 +34,7 @@
 <script>
   export default {
     data: () => ({
-      draggingRoute: null
+      movingRoute: null
     }),
 
     computed: {
@@ -49,15 +48,15 @@
 
     methods: {
       handleDragStart (route) {
-        this.draggingRoute = route
+        this.movingRoute = route
       },
       handleDragEnter (route) {
-        let fromIndex = this.routes.indexOf(this.draggingRoute)
+        let fromIndex = this.routes.indexOf(this.movingRoute)
         let toIndex = this.routes.indexOf(route)
         this.$store.dispatch('moveRoute', { fromIndex, toIndex })
       },
       handleDragEnd () {
-        this.draggingRoute = null
+        this.movingRoute = null
       },
       handleDragOver (event) {
         event.preventDefault()
@@ -66,9 +65,6 @@
         let element = event.target.parentElement
         element.setAttribute('draggable', value)
       },
-      selectRoute (route) {
-        this.$store.dispatch('selectRoute', { route })
-      },
       addRoute () {
         let route = {}
         this.$store.dispatch('addRoute', { route })
@@ -76,6 +72,9 @@
       removeRoute (route) {
         this.$store.dispatch('removeRoute', { route })
         this.$store.dispatch('selectRoute', {})
+      },
+      selectRoute (route) {
+        this.$store.dispatch('selectRoute', { route })
       }
     }
   }
@@ -123,7 +122,7 @@
     border-radius: 4px;
     user-select: none;
 
-    &[dragged] {
+    &[moving] {
       background-color: rgba($color-black, 0.05);
     }
   }
@@ -131,11 +130,6 @@
   .rot-c {
     @include icon;
     cursor: move;
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-    }
   }
 
   .rot-p {
@@ -151,30 +145,20 @@
   .rot-d {
     @include icon;
     cursor: pointer;
-    opacity: 0.5;
-
-    &:hover {
-      opacity: 1;
-    }
   }
 
   .rot-a {
     display: flex;
+    justify-content: flex-end;
     padding: 16px;
-    border-top: 1px dashed $color-divider;
-    cursor: pointer;
 
-    &:first-child {
-      border-top: 0;
+    &:not(:first-child) {
+      border-top: 1px dashed $color-divider;
     }
   }
 
   .rot-x {
     @include icon;
-  }
-
-  .rot-f {
-    margin-left: 16px;
-    color: $color-secondary-text;
+    cursor: pointer;
   }
 </style>
