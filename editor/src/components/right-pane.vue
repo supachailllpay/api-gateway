@@ -2,7 +2,7 @@
   <div class='right-pane'>
     <template v-if='route'>
       <div class='roe'>
-        <input class='roe-p' placeholder='Path' v-model='route.path'>
+        <input class='roe-p' type='text' placeholder='Path' v-model='route.path'>
         <element-select class='roe-m' right
           label='Method'
           v-model='route.method'
@@ -17,8 +17,8 @@
         </element-select>
       </div>
 
-      <div class='edt'>
-        <div class='edt-h'>
+      <div class='res'>
+        <div class='res-h'>
           <element-select
             label='Type'
             v-model='route.type'
@@ -29,8 +29,8 @@
             ]'>
           </element-select>
         </div>
-        <div class='edt-t'>
-          <textarea ref='textarea'></textarea>
+        <div class='res-t'>
+          <textarea placeholder='Response' ref='textarea'></textarea>
         </div>
       </div>
     </template>
@@ -44,7 +44,9 @@
 <script>
   import Vue from 'vue'
   import CodeMirror from 'codemirror'
+
   import 'codemirror/mode/javascript/javascript'
+  import 'codemirror/addon/display/placeholder'
 
   const initCodeMirror = function (textarea) {
     return CodeMirror.fromTextArea(textarea, {
@@ -71,20 +73,27 @@
     },
 
     watch: {
-      route (route) {
-        if (!route) {
-          this.editor = null
-          return
-        }
-        Vue.nextTick(() => {
-          if (!this.editor) {
-            this.editor = initCodeMirror(this.$refs.textarea)
-            this.editor.on('change', () => {
-              this.route.response = this.editor.getValue()
-            })
-          }
-          this.editor.setValue(route.response || '')
+      route () {
+        this.updateEditor()
+      }
+    },
+
+    methods: {
+      initEditor () {
+        this.editor = initCodeMirror(this.$refs.textarea)
+        this.editor.on('change', () => {
+          this.route.response = this.editor.getValue()
         })
+      },
+      updateEditor () {
+        if (this.route) {
+          Vue.nextTick(() => {
+            if (!this.editor) this.initEditor()
+            this.editor.setValue(this.route.response || '')
+          })
+        } else {
+          this.editor = null
+        }
       }
     }
   }
@@ -118,18 +127,18 @@
     margin-left: 16px;
   }
 
-  .edt {
+  .res {
     margin-top: 24px;
     background-color: $color-white;
     border-radius: 4px;
   }
 
-  .edt-h {
+  .res-h {
     padding: 16px;
     border-bottom: 1px dashed $color-divider;
   }
 
-  .edt-t {
+  .res-t {
     padding: 16px;
   }
 
@@ -154,5 +163,13 @@
 
   .CodeMirror-scroll {
     min-height: 240px;
+  }
+
+  .CodeMirror pre {
+    padding: 0;
+
+    &.CodeMirror-placeholder {
+      color: $color-secondary-text;
+    }
   }
 </style>
