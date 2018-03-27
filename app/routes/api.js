@@ -30,7 +30,9 @@ const useRoute = function (route, req, res, next) {
         res.json(response)
         return
       case 'proxy':
-        req.pipe(request(response)).pipe(res)
+        let base = response.replace(/[\s'"]/g, '').split('->')
+        let url = req.url.replace(base[0], base[1])
+        req.pipe(request(url)).pipe(res)
         return
       case 'function':
         let sandbox = { req, res, next }
