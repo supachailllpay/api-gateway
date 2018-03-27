@@ -7,6 +7,9 @@
   "bin": {
     "gateway": "./bin/gateway"
   },
+  "scripts": {
+    "postinstall": "cd editor && npm install"
+  },
   "dependencies": {
     "body-parser": "^1.18.2",
     "chalk": "^2.3.2",
