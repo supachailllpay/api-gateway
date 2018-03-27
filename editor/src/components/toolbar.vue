@@ -1,7 +1,7 @@
 <template>
   <div class='toolbar'>
     <div class='tle'>
-      <a href='/'>{{ info.title || 'api-gateway' }}</a>
+      <a href='/'>{{ info.name || 'api-gateway' }}</a>
       <span>v{{ info.version || '0.0.0' }}</span>
     </div>
 

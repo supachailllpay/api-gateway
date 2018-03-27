@@ -1,7 +1,7 @@
 <template>
   <div class='left-pane'>
     <div class='inf'>
-      <input class='inf-t' placeholder='Project name' v-model='info.title'>
+      <input class='inf-t' placeholder='Name' v-model='info.name'>
       <input class='inf-v' placeholder='Version' v-model='info.version'>
     </div>
 
