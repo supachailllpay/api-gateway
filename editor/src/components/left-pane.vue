@@ -68,6 +68,7 @@
       addRoute () {
         let route = {}
         this.$store.dispatch('addRoute', { route })
+        this.$store.dispatch('selectRoute', { route })
       },
       removeRoute (route) {
         this.$store.dispatch('removeRoute', { route })
