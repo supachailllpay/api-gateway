@@ -7,7 +7,7 @@
           label='Method'
           v-model='route.method'
           :options='[
-            { label: "any", value: "*" },
+            { label: "any", value: ".*" },
             { label: "get", value: "get" },
             { label: "post", value: "post" },
             { label: "put", value: "put" },
