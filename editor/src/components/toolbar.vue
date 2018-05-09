@@ -2,7 +2,7 @@
   <div class='toolbar'>
     <div class='tle'>
       <a href='/'>{{ info.name || 'api-gateway' }}</a>
-      <span>v{{ info.version || '0.1.2' }}</span>
+      <span>v{{ info.version || '0.1.3' }}</span>
     </div>
 
     <div class='icn' @click='save'>save</div>
