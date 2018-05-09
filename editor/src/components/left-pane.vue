@@ -22,6 +22,16 @@
           <span>{{ route.path }}</span>
           <span v-show='!route.path'>~</span>
         </div>
+        <div class='rot-m'>
+          <span>{{ {
+            '.*': 'any',
+            'get': 'get',
+            'post': 'post',
+            'put': 'put',
+            'patch': 'patch',
+            'delete': 'delete'
+          }[route.method] }}</span>
+        </div>
         <div class='rot-d' @click='removeRoute(route)'>remove_circle_outline</div>
       </div>
       <div class='rot-a'>
@@ -136,6 +146,9 @@
   .rot-p {
     flex-grow: 1;
     margin-left: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     cursor: pointer;
 
     &:hover {
@@ -143,8 +156,14 @@
     }
   }
 
+  .rot-m {
+    margin-left: 16px;
+    color: $color-secondary-text;
+  }
+
   .rot-d {
     @include icon;
+    margin-left: 16px;
     cursor: pointer;
   }
 
