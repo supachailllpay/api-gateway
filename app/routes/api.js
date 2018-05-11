@@ -27,7 +27,7 @@ const useRoute = function (route, req, res, next) {
   if (testRoute(route, req)) {
     switch (type) {
       case 'json':
-        res.json(response)
+        res.json(JSON.parse(response))
         return
       case 'proxy':
         let base = response.replace(/[\s'"]/g, '').split('->')
