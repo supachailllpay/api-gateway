@@ -1,6 +1,5 @@
 # Build output directories
 app/public
-app/views
 
 # Dependency directories
 node_modules
